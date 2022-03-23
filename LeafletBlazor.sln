@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafletBlazor", "LeafletBlazor\LeafletBlazor.csproj", "{28A81F51-F051-4C09-9DD1-DDDA91AF64A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{3DE2F596-F3A6-4AA4-BF2D-AA773320263D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WASM", "WASM", "{729C35AB-3775-4789-A009-12F0F67187CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafletBlazor.WASM.Server", "LeafletBlazor.WASM\Server\LeafletBlazor.WASM.Server.csproj", "{92D3BD48-CBC3-4194-9392-8082F26CDA99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafletBlazor.WASM.Client", "LeafletBlazor.WASM\Client\LeafletBlazor.WASM.Client.csproj", "{8C69A126-7E74-4533-B0D0-109F7E36FFC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{9F2DA852-C0B6-4335-AFA1-AB9B8D99D593}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafletBlazor.Server", "LeafletBlazor.Server\LeafletBlazor.Server.csproj", "{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28A81F51-F051-4C09-9DD1-DDDA91AF64A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A81F51-F051-4C09-9DD1-DDDA91AF64A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A81F51-F051-4C09-9DD1-DDDA91AF64A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A81F51-F051-4C09-9DD1-DDDA91AF64A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D3BD48-CBC3-4194-9392-8082F26CDA99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D3BD48-CBC3-4194-9392-8082F26CDA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D3BD48-CBC3-4194-9392-8082F26CDA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D3BD48-CBC3-4194-9392-8082F26CDA99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C69A126-7E74-4533-B0D0-109F7E36FFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C69A126-7E74-4533-B0D0-109F7E36FFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C69A126-7E74-4533-B0D0-109F7E36FFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C69A126-7E74-4533-B0D0-109F7E36FFC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{729C35AB-3775-4789-A009-12F0F67187CF} = {3DE2F596-F3A6-4AA4-BF2D-AA773320263D}
+		{92D3BD48-CBC3-4194-9392-8082F26CDA99} = {729C35AB-3775-4789-A009-12F0F67187CF}
+		{8C69A126-7E74-4533-B0D0-109F7E36FFC4} = {729C35AB-3775-4789-A009-12F0F67187CF}
+		{9F2DA852-C0B6-4335-AFA1-AB9B8D99D593} = {3DE2F596-F3A6-4AA4-BF2D-AA773320263D}
+		{0BDD1149-E09E-40BA-BC3A-482BA9BCC0D3} = {9F2DA852-C0B6-4335-AFA1-AB9B8D99D593}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44C49ACB-C7B6-4C9F-A869-035C68891B57}
+	EndGlobalSection
+EndGlobal

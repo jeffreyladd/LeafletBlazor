@@ -1,0 +1,85 @@
+﻿@page "/map-events"
+@using LeafletBlazor.EventHandlers
+<MudPaper Class="pa-16 ma-2" Elevation="0">
+    <div style="height: 800px; width: 1000px;">
+        <LeafletBlazorMap @ref="_map" Options="_options" />
+    </div>
+</MudPaper>
+<MudPaper Class="pa-16 ma-2"> 
+    <MudSimpleTable Style="overflow-x: auto;">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>DateTime</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Events)
+            {
+                <tr>
+                    <td>@row.Event</td>
+                    <td>@row.Time</td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+</MudPaper>
+
+
+
+@code {
+    private LeafletBlazorMap _map;
+    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2 };
+    public List<EventDetail> Events { get; set; } = new List<EventDetail>();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _map.OnInit += () =>
+            {
+                _map.AddLayer(new TileLayer
+                {
+                    UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                });
+            };
+            _map.OnLoad += InternalEventLogger;
+            _map.OnZoomLevelsChange += InternalEventLogger;
+            _map.OnResize += InternalEventLogger;
+            _map.OnUnload += InternalEventLogger;
+            _map.OnViewReset += InternalEventLogger;
+            _map.OnZoomStart += InternalEventLogger;
+            _map.OnMoveStart += InternalEventLogger;
+            _map.OnZoom += InternalEventLogger;
+            _map.OnMove += InternalEventLogger;
+            _map.OnZoomEnd += InternalEventLogger;
+            _map.OnMoveEnd += InternalEventLogger;
+            _map.OnClick += InternalEventLogger;
+            _map.OnDblClick += InternalEventLogger;
+            _map.OnMouseDown += InternalEventLogger;
+            _map.OnMouseUp += InternalEventLogger;
+            _map.OnMouseOver += InternalEventLogger;
+            _map.OnMouseOut += InternalEventLogger;
+            _map.OnMouseMove += InternalEventLogger;
+            _map.OnContextMenu += InternalEventLogger;
+            _map.OnKeyPress += InternalEventLogger;
+            _map.OnKeyDown += InternalEventLogger;
+            _map.OnKeyUp += InternalEventLogger;
+            _map.OnPreClick += InternalEventLogger;
+        }
+    }
+
+    async void InternalEventLogger(object sender, Event e)
+    {
+        this.Events.Add(new EventDetail { Event = e.Type, Time = DateTimeOffset.Now });
+        StateHasChanged();
+
+    }
+
+    public class EventDetail
+    {
+        public string Event { get; set; } 
+        public DateTimeOffset Time { get; set; } 
+    }
+}

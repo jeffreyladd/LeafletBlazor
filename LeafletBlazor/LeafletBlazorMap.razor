@@ -1,0 +1,13 @@
+﻿
+<div id="@Id" style="width: 100%; height: 100%;"></div>
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LeafletInterops.Create(JsRuntime, this);
+            this.RaiseOnInit();
+        }
+    }
+}

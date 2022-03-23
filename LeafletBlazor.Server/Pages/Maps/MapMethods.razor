@@ -1,0 +1,138 @@
+﻿@page "/map-methods"
+@inject IJSRuntime jsRuntime
+
+<MudExpansionPanels MultiExpansion="true">
+    <MudExpansionPanel Text="Set Map State">
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="Set View">
+                <MudNumericField @bind-Value="_latitude" Label="Latitude" Variant="Variant.Filled" />
+                <MudNumericField @bind-Value="_longitude" Label="Longitude" Variant="Variant.Filled" />
+                <MudNumericField @bind-Value="_zoom" Label="Zoom" Variant="Variant.Filled" Min="0.0" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetView">Set View</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Set Zoom">
+                 <MudNumericField @bind-Value="_zoom" Label="Zoom" Variant="Variant.Filled" Min="0.0" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetZoom">Set Zoom</MudButton>
+            </MudExpansionPanel>
+             <MudExpansionPanel Text="Set Zoom In Delta">
+                 <MudNumericField @bind-Value="_zoomDelta" Label="Zoom Delta" Variant="Variant.Filled" Min="0.0" />
+                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetZoomInDelta">Set Zoom In</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Set Zoom Out Delta">
+                 <MudNumericField @bind-Value="_zoomDelta" Label="Zoom Delta" Variant="Variant.Filled" Min="0.0" />
+                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetZoomOutDelta">Set Zoom Out</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Set Zoom Around">
+                <MudNumericField @bind-Value="_latitude" Label="Latitude" Variant="Variant.Filled" />
+                <MudNumericField @bind-Value="_longitude" Label="Longitude" Variant="Variant.Filled" />
+                <MudNumericField @bind-Value="_zoom" Label="Zoom" Variant="Variant.Filled" Min="0.0" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetZoomAround">Set Zoom Around</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Set Min Zoom">
+                 <MudNumericField @bind-Value="_zoom" Label="Zoom" Variant="Variant.Filled" Min="0.0" />
+                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetMinZoom">Set Min Zoom</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Set Max Zoom">
+                 <MudNumericField @bind-Value="_zoom" Label="Zoom" Variant="Variant.Filled" Min="0.0" />
+                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SetMaxZoom">Set Max Zoom</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Pan Inside">
+                <MudNumericField @bind-Value="_latitude" Label="Latitude" Variant="Variant.Filled" />
+                <MudNumericField @bind-Value="_longitude" Label="Longitude" Variant="Variant.Filled" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="PanInside">Pan Inside</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Get Center">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GetCenter">Get Center</MudButton>
+                Latitude: @_latitude
+                Longitude: @_longitude
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Get Zoom">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GetZoom">Get Zoom</MudButton>
+                Zoom: @_zoom
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Map" IsExpanded="true">
+        <div style="height: 800px; width: 1000px;">
+            <LeafletBlazorMap @ref="_map" Options="_options" />
+        </div>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code
+{
+    private LeafletBlazorMap _map;
+    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2 };
+    double _latitude = 0.0;
+    double _longitude = 0.0;
+    double _zoom = 2;
+    double _zoomDelta = 0.0;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _map.OnInit += () =>
+            {
+                _map.AddLayer(new TileLayer
+                {
+                    UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                });
+            };
+        }
+    }
+
+    public void SetView()
+    {
+        this._map.SetView(new LatLng(this._latitude, this._longitude), this._zoom, new Models.ZoomPanOptions { });
+    }
+
+    public void SetZoom()
+    {
+        this._map.SetZoom(this._zoom, new Models.ZoomPanOptions { });
+    }
+
+    public void SetZoomInDelta()
+    {
+        this._map.SetZoomIn(this._zoom, new Models.ZoomOptions { });
+    }
+
+    public void SetZoomOutDelta()
+    {
+        this._map.SetZoomOut(this._zoom, new Models.ZoomOptions { });
+    }
+
+    public void SetZoomAround()
+    {
+        this._map.SetZoomAround(new LatLng(this._latitude, this._longitude), this._zoom, new Models.ZoomOptions { });
+    }
+
+    public void SetMinZoom()
+    {
+        this._map.SetMinZoom(this._zoom);
+    }
+
+    public void SetMaxZoom()
+    {
+        this._map.SetMaxZoom(this._zoom);
+    }
+
+    public void PanInside()
+    {
+        this._map.PanInside(new LatLng(this._latitude, this._longitude));
+    }
+
+    public async Task GetCenter()
+    {
+        var res = await this._map.GetCenter();
+
+        this._latitude = res.Lat;
+        this._longitude = res.Lng;
+    }
+
+    public async Task GetZoom()
+    {
+        this._zoom = await this._map.GetZoom();
+    }
+}
