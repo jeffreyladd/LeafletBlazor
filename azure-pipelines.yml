@@ -1,4 +1,4 @@
-name: $(BuildDefinitionName)_$(Rev:.r)
+name: $(BuildDefinitionName)0.0.1.$(Rev:.r)
 trigger:
 - master
 
@@ -11,15 +11,9 @@ steps:
     command: 'build'
     projects: 'LeafletBlazor/LeafletBlazor.csproj'
 
-- task: DotNetCoreCLI@2
+task: CmdLine@2
   inputs:
-    command: 'pack'
-    packagesToPack: 'LeafletBlazor/LeafletBlazor.csproj'
-    nobuild: true
-    versioningScheme: 'byBuildNumber'
-    majorVersion: '0'
-    minorVersion: '0'
-    patchVersion: '1'
+    script: 'dotnet pack --output  $(Build.ArtifactStagingDirectory)  --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed'
 
 - task: PublishBuildArtifacts@1
   inputs:
