@@ -210,7 +210,7 @@ namespace LeafletBlazor
                 foreach (var item in args.NewItems)
                 {
                     var layer = item as Layer;
-                    LeafletInterops.AddLayer(this.JsRuntime, this.Id, layer);
+                    LeafletInterops.Map.AddLayer(this.JsRuntime, this.Id, layer);
                 }
             }
             else if (args.Action == NotifyCollectionChangedAction.Remove)
@@ -219,7 +219,7 @@ namespace LeafletBlazor
                 {
                     if (item is Layer layer)
                     {
-                        LeafletInterops.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
+                        LeafletInterops.Map.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
                     }
                 }
             }
@@ -228,10 +228,10 @@ namespace LeafletBlazor
             {
                 foreach (var oldItem in args.OldItems)
                     if (oldItem is Layer layer)
-                        LeafletInterops.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
+                        LeafletInterops.Map.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
 
                 foreach (var newItem in args.NewItems)
-                    LeafletInterops.AddLayer(this.JsRuntime, this.Id, newItem as Layer);
+                    LeafletInterops.Map.AddLayer(this.JsRuntime, this.Id, newItem as Layer);
             }
         }
     }
