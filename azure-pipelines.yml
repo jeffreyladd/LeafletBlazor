@@ -17,8 +17,8 @@ steps:
     nobuild: true
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '0'
-    minorVersion: '1'
-    patchVersion: '0'
+    minorVersion: '0'
+    patchVersion: '1'
 
 - task: PublishBuildArtifacts@1
   inputs:
