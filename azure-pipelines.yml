@@ -11,7 +11,7 @@ steps:
     command: 'build'
     projects: 'LeafletBlazor/LeafletBlazor.csproj'
 
-task: CmdLine@2
+- task: CmdLine@2
   inputs:
     script: 'dotnet pack --output  $(Build.ArtifactStagingDirectory)  --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed'
 
