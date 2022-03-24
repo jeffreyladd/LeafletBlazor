@@ -9,3 +9,24 @@ steps:
   inputs:
     command: 'build'
     projects: 'LeafletBlazor/LeafletBlazor.csproj'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'LeafletBlazor/LeafletBlazor.csproj'
+    nobuild: true
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '0'
+    minorVersion: '1'
+    patchVersion: '0'
+
+- task: PublishSymbols@2
+  inputs:
+    SearchPattern: 'LeafletBlazor/bin/**/*.pdb'
+    SymbolServerType: 'TeamServices'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
