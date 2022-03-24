@@ -1,4 +1,4 @@
-name: $(BuildDefinitionName)0.0.1$(Rev:.r)
+name: 0.0.1$(Rev:.r)
 trigger:
 - master
 
@@ -13,7 +13,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet pack LeafletBlazor/LeafletBlazor.csproj --output  $(Build.ArtifactStagingDirectory)  --no-build /p:Configuration=$(BuildConfiguration) /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed'
+    script: 'dotnet pack LeafletBlazor/LeafletBlazor.csproj --output  $(Build.ArtifactStagingDirectory) --no-build /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed'
 
 - task: PublishBuildArtifacts@1
   inputs:
