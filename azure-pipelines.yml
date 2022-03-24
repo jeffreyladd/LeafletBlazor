@@ -1,4 +1,4 @@
-name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(Month).$(DayOfMonth)$(Rev:.r)
+name: $(BuildDefinitionName)_$(Rev:.r)
 trigger:
 - master
 
