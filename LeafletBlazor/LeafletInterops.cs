@@ -83,9 +83,5 @@ namespace LeafletBlazor
 
             internal static ValueTask<double> GetMaxZoom(IJSRuntime jsRuntime, string mapId) => jsRuntime.InvokeAsync<double>($"{_BaseObjectContainer}.getMaxZoom", mapId);
         }
-
-
-
-
     }
 }

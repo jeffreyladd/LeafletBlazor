@@ -45,23 +45,24 @@ window.leafletBlazor = {
         layers[map.id] = [];
     },
     addTilelayer: function (mapId, tileLayer, objectReference) {
-        const layer = L.tileLayer(tileLayer.urlTemplate, {
-            attribution: tileLayer.attribution,
-            pane: tileLayer.pane,
-            tileSize: tileLayer.tileSize ? L.point(tileLayer.tileSize.width, tileLayer.tileSize.height) : undefined,
-            opacity: tileLayer.opacity,
-            updateWhenZooming: tileLayer.updateWhenZooming,
-            updateInterval: tileLayer.updateInterval,
-            zIndex: tileLayer.zIndex,
-            bounds: tileLayer.bounds && tileLayer.bounds.item1 && tileLayer.bounds.item2 ? L.latLngBounds(tileLayer.bounds.item1, tileLayer.bounds.item2) : undefined,
-            minZoom: tileLayer.minimumZoom,
-            maxZoom: tileLayer.maximumZoom,
-            subdomains: tileLayer.subdomains,
-            errorTileUrl: tileLayer.errorTileUrl,
-            zoomOffset: tileLayer.zoomOffset,
-            zoomReverse: tileLayer.isZoomReversed,
-            detectRetina: tileLayer.detectRetina,
+        const layer = L.tileLayer(tileLayer.options.urlTemplate, {
+            attribution: tileLayer.options.attribution,
+            pane: tileLayer.options.pane,
+            tileSize: tileLayer.options.tileSize ? L.point(tileLayer.options.tileSize.width, tileLayer.options.tileSize.height) : undefined,
+            opacity: tileLayer.options.opacity,
+            updateWhenZooming: tileLayer.options.updateWhenZooming,
+            updateInterval: tileLayer.options.updateInterval,
+            zIndex: tileLayer.options.zIndex,
+            bounds: tileLayer.options.bounds && tileLayer.options.bounds.item1 && tileLayer.options.bounds.item2 ? L.latLngBounds(tileLayer.options.bounds.item1, tileLayer.options.bounds.item2) : undefined,
+            minZoom: tileLayer.options.minimumZoom,
+            maxZoom: tileLayer.options.maximumZoom,
+            subdomains: tileLayer.options.subdomains,
+            errorTileUrl: tileLayer.options.errorTileUrl,
+            zoomOffset: tileLayer.options.zoomOffset,
+            zoomReverse: tileLayer.options.isZoomReversed,
+            detectRetina: tileLayer.options.detectRetina,
         });
+        connectTileLayerEvents(layer, objectReference);
         addLayer(mapId, layer, tileLayer.id);
     },
     setMapView: function (mapId, center, zoom, options) {
@@ -173,6 +174,23 @@ function connectMapEvents(map, objectReference) {
         "keyup": "NotifyKeyUp",
         "preclick": "NotifyPreClick",
         
+    });
+}
+
+function connectTileLayerEvents(layer, objectReference) {
+    mapEvents(layer, objectReference, {
+        "add": "NotifyAdd",
+        "remove": "NotifyRemove",
+        "popupopen": "NotifyPopupOpen",
+        "popupclose": "NotifyPopupClose",
+        "tooltipopen": "NotifyTooltipOpen",
+        "tooltipclose": "NotifyTooltipClose",
+        "loading": "NotifyLoading",
+        "tileunload": "NotifyTileUnload",
+        "tileloadstart": "NotifyTileLoadStart",
+        "tileerror": "NotifyTileError",
+        "tileload": "NotifyTileLoad",
+        "load" : "NotifyLoad"
     });
 }
 

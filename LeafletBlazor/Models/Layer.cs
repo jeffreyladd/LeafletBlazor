@@ -1,4 +1,7 @@
-﻿namespace LeafletBlazor.Models
+﻿using LeafletBlazor.EventHandlers;
+using Microsoft.JSInterop;
+
+namespace LeafletBlazor.Models
 {
     /// <summary>
     /// The base of all layers that can added.
@@ -7,7 +10,7 @@
     {
         protected Layer()
         {
-            Id = Utils.GetRandomString(20);
+            this.Id = Utils.GetRandomString(20);
         }
 
         /// <summary>
@@ -15,9 +18,42 @@
         /// </summary>
         public string Id { get; }
 
-        /// <summary>
-        /// By default the layer will be added to the map's overlay pane. Overriding this option will cause the layer to be placed on another pane by default.
-        /// </summary>
-        public virtual string Pane { get; set; } = "overlayPane";
+
+
+        //TODO: do Tooltip and Popup when those controls are added
+
+        public delegate void EventHandler(Layer sender, Event e);
+
+        public event EventHandler OnAdd;
+
+        [JSInvokable]
+        public void NotifyAdd(Event eventArgs)
+        {
+            this.OnAdd?.Invoke(this, eventArgs);
+        }
+
+        public event EventHandler OnRemove;
+
+        [JSInvokable]
+        public void NotifyRemove(Event eventArgs)
+        {
+            this.OnRemove?.Invoke(this, eventArgs);
+        }
+
+
+        //TODO: Add Popup and Toolip Events when they are added.
+
+
+        public abstract void AddTo(LeafletBlazorMap map);
+
+        public abstract void Remove();
+
+        public abstract void RemoveFrom(LeafletBlazorMap map);
+
+        //TODO: add GetPane
+
+        public abstract void GetAttribution();
+
+        //TODO: Add Popup and Toolip Methods when they are added.
     }
 }

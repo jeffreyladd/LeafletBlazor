@@ -74,11 +74,11 @@
         {
             _map.OnInit += () =>
             {
-                _map.AddLayer(new TileLayer
+                _map.AddLayer(new TileLayer(new TileLayerOptions
                 {
                     UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-                });
+                }));
             };
         }
     }
