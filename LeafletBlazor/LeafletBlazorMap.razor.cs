@@ -47,28 +47,28 @@ namespace LeafletBlazor
         /// <param name="center">The Center point of the map</param>
         /// <param name="zoom">The Zoom to use.</param>
         /// <param name="options">The Zoom/Pan options to use when moving.</param>
-        public void SetView(LatLng center, double zoom, ZoomPanOptions options) => LeafletInterops.Map.SetMapView(this.JsRuntime, this.Id, center, zoom, options);
+        public ValueTask SetView(LatLng center, double zoom, ZoomPanOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMapView", this.Id, center, zoom, options);
 
         /// <summary>
         /// Sets the zoom of the map.
         /// </summary>
         /// <param name="zoom">The Zoom to use.</param>
         /// <param name="options">The Zoom/Pan options to use when moving.</param>
-        public void SetZoom(double zoom, ZoomPanOptions options) => LeafletInterops.Map.SetMapZoom(this.JsRuntime, this.Id, zoom, options);
+        public ValueTask SetZoom(double zoom, ZoomPanOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMapZoom", this.Id, zoom, options);
 
         /// <summary>
         /// Increases the zoom of the map by delta (zoomDelta by default).
         /// </summary>
         /// <param name="delta"></param>
         /// /// <param name="options"></param>
-        public void SetZoomIn(double delta, ZoomOptions options) => LeafletInterops.Map.SetZoomIn(this.JsRuntime, this.Id, delta, options);
+        public ValueTask SetZoomIn(double delta, ZoomOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setZoomIn", this.Id, delta, options);
 
         /// <summary>
         /// Decreases the zoom of the map by delta (zoomDelta by default).
         /// </summary>
         /// <param name="delta"></param>
         /// <param name="options"></param>
-        public void SetZoomOut(double delta, ZoomOptions options) => LeafletInterops.Map.SetZoomOut(this.JsRuntime, this.Id, delta, options);
+        public ValueTask SetZoomOut(double delta, ZoomOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setZoomOut", this.Id, delta, options);
 
         /// <summary>
         /// Zooms the map while keeping a specified geographical point on the map stationary (e.g. used internally for scroll zoom and double-click zoom).
@@ -76,7 +76,7 @@ namespace LeafletBlazor
         /// <param name="center">The Center point of the map</param>
         /// <param name="zoom">The Zoom to use.</param>
         /// <param name="options">The Zoom options to use when moving.</param>
-        public void SetZoomAround(LatLng center, double zoom, ZoomOptions options) => LeafletInterops.Map.SetZoomAround(this.JsRuntime, this.Id, center, zoom, options);
+        public ValueTask SetZoomAround(LatLng center, double zoom, ZoomOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setZoomAround", this.Id, center, zoom, options);
 
         //TODO: flyToBounds, setMaxBounds
 
@@ -84,13 +84,13 @@ namespace LeafletBlazor
         /// Sets the lower limit for the available zoom levels (see the minZoom option).
         /// </summary>
         /// <param name="zoom">The amount to zoom out</param>
-        public void SetMinZoom(double zoom) => LeafletInterops.Map.SetMinZoom(this.JsRuntime, this.Id, zoom);
+        public ValueTask SetMinZoom(double zoom) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMinZoom", this.Id, zoom);
 
         /// <summary>
         /// Sets the upper limit for the available zoom levels (see the maxZoom option).
         /// </summary>
         /// <param name="zoom">The amount to zoom in</param>
-        public void SetMaxZoom(double zoom) => LeafletInterops.Map.SetMaxZoom(this.JsRuntime, this.Id, zoom);
+        public ValueTask SetMaxZoom(double zoom) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMaxZoom", this.Id, zoom);
 
         //TODO: panInsideBounds
 
@@ -98,25 +98,25 @@ namespace LeafletBlazor
         /// Pans the map the minimum amount to make the latlng visible. Use padding, paddingTopLeft and paddingTopRight options to fit the display to more restricted bounds, like fitBounds. If latlng is already within the (optionally padded) display bounds, the map will not be panned.
         /// </summary>
         /// <param name="latLng">The point to pan to.</param>
-        public void PanInside(LatLng latLng) => LeafletInterops.Map.PanInside(this.JsRuntime, this.Id, latLng);
+        public ValueTask PanInside(LatLng latLng) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.panInside", this.Id, latLng);
 
         /// <summary>
         /// Checks if the map container size changed and updates the map if so — call it after you've changed the map size dynamically, also animating pan by default. If options.pan is false, panning will not occur. If options.debounceMoveend is true, it will delay moveend event so that it doesn't happen often even if the method is called many times in a row.
         /// </summary>
         /// <param name="options">The options to pass.</param>
-        public void InvalidateSize(ZoomPanOptions options) => LeafletInterops.Map.InvalidateSize(this.JsRuntime, this.Id, options);
+        public ValueTask InvalidateSize(ZoomPanOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.InvalidateSize", this.Id, options);
 
         /// <summary>
         /// Stops the currently running panTo or flyTo animation, if any.
         /// </summary>
-        public void Stop() => LeafletInterops.Map.Stop(this.JsRuntime, this.Id);
+        public ValueTask Stop() => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.stop", this.Id);
 
         //TODO: Geolocation methods and AddHandler Methods.
 
         /// <summary>
         /// 
         /// </summary>
-        public void Remove() => LeafletInterops.Map.Remove(this.JsRuntime, this.Id);
+        public ValueTask Remove() => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.remove", this.Id);
 
         //TODO: Add Pane Methods.
 
@@ -124,13 +124,13 @@ namespace LeafletBlazor
         /// Returns the geographical center of the map view
         /// </summary>
         /// <returns></returns>
-        public async Task<LatLng> GetCenter() => await LeafletInterops.Map.GetCenter(this.JsRuntime, this.Id);
+        public ValueTask<LatLng> GetCenter() => this.JsRuntime.InvokeAsync<LatLng>($"{Utils._BaseMapObject}.getCenter", this.Id);
 
         /// <summary>
         /// Returns the current zoom level of the map view
         /// </summary>
         /// <returns></returns>
-        public async Task<double> GetZoom() => await LeafletInterops.Map.GetZoom(this.JsRuntime, this.Id);
+        public ValueTask<double> GetZoom() => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getZoom", this.Id);
 
         //TODO: Add GetBounds
 
@@ -138,13 +138,13 @@ namespace LeafletBlazor
         /// Returns the minimum zoom level of the map (if set in the minZoom option of the map or of any layers), or 0 by default.
         /// </summary>
         /// <returns></returns>
-        public async Task<double> GetMinZoom() => await LeafletInterops.Map.GetMinZoom(this.JsRuntime, this.Id);
+        public ValueTask<double> GetMinZoom() => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getMinZoom", this.Id);
 
         /// <summary>
         /// Returns the maximum zoom level of the map (if set in the maxZoom option of the map or of any layers).
         /// </summary>
         /// <returns></returns>
-        public async Task<double> GetMaxZoom() => await LeafletInterops.Map.GetMaxZoom(this.JsRuntime, this.Id);
+        public ValueTask<double> GetMaxZoom() => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getMaxZoom", this.Id);
 
         //TODO: Add getBoundsZoom, Sizes, COnversion, and Evented Methods.
 

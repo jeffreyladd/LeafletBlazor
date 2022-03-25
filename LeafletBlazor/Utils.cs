@@ -5,6 +5,8 @@
     /// </summary>
     internal static class Utils
     {
+        internal static readonly string _BaseMapObject = "window.leafletBlazor";
+
         static readonly Random _random = new Random();
 
         /// <summary>

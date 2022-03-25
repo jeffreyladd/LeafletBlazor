@@ -20,6 +20,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnZoomLevelsChange;
+
         [JSInvokable]
         public void NotifyZoomLevelsChange(Event e) => OnZoomLevelsChange?.Invoke(this, e);
 
@@ -28,6 +29,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnResize;
+
         [JSInvokable]
         public void NotifyResize(ResizeEvent e) => OnResize?.Invoke(this, e);
 
@@ -36,6 +38,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnUnload;
+
         [JSInvokable]
         public void NotifyUnload(Event e) => OnUnload?.Invoke(this, e);
 
@@ -44,6 +47,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnViewReset;
+
         [JSInvokable]
         public void NotifyViewReset(Event e) => OnViewReset?.Invoke(this, e);
 
@@ -52,6 +56,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnLoad;
+
         [JSInvokable]
         public void NotifyLoad(Event e) => OnLoad?.Invoke(this, e);
 
@@ -60,6 +65,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnZoomStart;
+
         [JSInvokable]
         public void NotifyZoomStart(Event e) => OnZoomStart?.Invoke(this, e);
 
@@ -68,6 +74,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMoveStart;
+
         [JSInvokable]
         public void NotifyMoveStart(Event e) => OnMoveStart?.Invoke(this, e);
 
@@ -76,6 +83,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnZoom;
+
         [JSInvokable]
         public void NotifyZoom(Event e) => OnZoom?.Invoke(this, e);
 
@@ -84,6 +92,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMove;
+
         [JSInvokable]
         public void NotifyMove(Event e) => OnMove?.Invoke(this, e);
 
@@ -92,6 +101,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnZoomEnd;
+
         [JSInvokable]
         public void NotifyZoomEnd(Event e) => OnZoomEnd?.Invoke(this, e);
 
@@ -100,6 +110,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMoveEnd;
+
         [JSInvokable]
         public void NotifyMoveEnd(Event e) => OnMoveEnd?.Invoke(this, e);
 
@@ -110,6 +121,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnClick;
+
         [JSInvokable]
         public void NotifyClick(MouseEvent e) => OnClick?.Invoke(this, e);
 
@@ -118,6 +130,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnDblClick;
+
         [JSInvokable]
         public void NotifyDblClick(MouseEvent e) => OnDblClick?.Invoke(this, e);
 
@@ -126,6 +139,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMouseDown;
+
         [JSInvokable]
         public void NotifyMouseDown(MouseEvent e) => OnMouseDown?.Invoke(this, e);
 
@@ -134,6 +148,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMouseUp;
+
         [JSInvokable]
         public void NotifyMouseUp(MouseEvent e) => OnMouseUp?.Invoke(this, e);
 
@@ -142,6 +157,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMouseOver;
+
         [JSInvokable]
         public void NotifyMouseOver(MouseEvent e) => OnMouseOver?.Invoke(this, e);
 
@@ -150,6 +166,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMouseOut;
+
         [JSInvokable]
         public void NotifyMouseOut(MouseEvent e) => OnMouseOut?.Invoke(this, e);
 
@@ -158,6 +175,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnMouseMove;
+
         [JSInvokable]
         public void NotifyMouseMove(MouseEvent e) => OnMouseMove?.Invoke(this, e);
 
@@ -166,6 +184,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnContextMenu;
+
         [JSInvokable]
         public void NotifyContextMenu(MouseEvent e) => OnContextMenu?.Invoke(this, e);
 
@@ -174,6 +193,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnKeyPress;
+
         [JSInvokable]
         public void NotifyKeyPress(Event e) => OnKeyPress?.Invoke(this, e);
 
@@ -182,6 +202,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnKeyDown;
+
         [JSInvokable]
         public void NotifyKeyDown(Event e) => OnKeyDown?.Invoke(this, e);
 
@@ -190,6 +211,7 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnKeyUp;
+
         [JSInvokable]
         public void NotifyKeyUp(Event e) => OnKeyUp?.Invoke(this, e);
 
@@ -198,41 +220,64 @@ namespace LeafletBlazor
         /// <para>Fired from leaflet.</para>
         /// </summary>
         public event MapEventHandler OnPreClick;
+
         [JSInvokable]
         public void NotifyPreClick(MouseEvent e) => OnPreClick?.Invoke(this, e);
 
         //TODO: zoomanim event
 
-        void OnLayersChanged(object sender, NotifyCollectionChangedEventArgs args)
+        async void OnLayersChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             if (args.Action == NotifyCollectionChangedAction.Add)
-            {
                 foreach (var item in args.NewItems)
-                {
-                    var layer = item as Layer;
-                    LeafletInterops.Map.AddLayer(this.JsRuntime, this.Id, layer);
-                }
-            }
+                    await InternalAddLayer(item as Layer);
+
             else if (args.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (var item in args.OldItems)
-                {
                     if (item is Layer layer)
-                    {
-                        LeafletInterops.Map.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
-                    }
-                }
+                        await InternalRemoveLayer(layer.Id);
             }
-            else if (args.Action == NotifyCollectionChangedAction.Replace
-                     || args.Action == NotifyCollectionChangedAction.Move)
+
+            else if (args.Action == NotifyCollectionChangedAction.Replace || args.Action == NotifyCollectionChangedAction.Move)
             {
                 foreach (var oldItem in args.OldItems)
+                {
                     if (oldItem is Layer layer)
-                        LeafletInterops.Map.RemoveLayer(this.JsRuntime, this.Id, layer.Id);
+                    {
+                        await InternalRemoveLayer(layer.Id);
+                    }
+                }
 
                 foreach (var newItem in args.NewItems)
-                    LeafletInterops.Map.AddLayer(this.JsRuntime, this.Id, newItem as Layer);
+                {
+                    await InternalAddLayer(newItem as Layer);
+                }
             }
+        }
+
+        ValueTask InternalAddLayer(Layer layer)
+        {
+            return layer switch
+            {
+                TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addTilelayer", this.Id, tileLayer, LeafletCache.CreateLayerReference(this.Id, tileLayer)),
+                //MbTilesLayer mbTilesLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMbTilesLayer", mapId, mbTilesLayer, CreateLayerReference(mapId, mbTilesLayer)),
+                //ShapefileLayer shapefileLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addShapefileLayer", mapId, shapefileLayer, CreateLayerReference(mapId, shapefileLayer)),
+                //Marker marker => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMarker", mapId, marker, CreateLayerReference(mapId, marker)),
+                //Rectangle rectangle => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addRectangle", mapId, rectangle, CreateLayerReference(mapId, rectangle)),
+                //Circle circle => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addCircle", mapId, circle, CreateLayerReference(mapId, circle)),
+                //Polygon polygon => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addPolygon", mapId, polygon, CreateLayerReference(mapId, polygon)),
+                //Polyline polyline => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addPolyline", mapId, polyline, CreateLayerReference(mapId, polyline)),
+                //ImageLayer image => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addImageLayer", mapId, image, CreateLayerReference(mapId, image)),
+                //GeoJsonDataLayer geo => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addGeoJsonLayer", mapId, geo, CreateLayerReference(mapId, geo)),
+                _ => throw new NotImplementedException($"The layer {typeof(Layer).Name} has not been implemented."),
+            };
+        }
+
+        async ValueTask InternalRemoveLayer(string layerId)
+        {
+            await this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.removeLayer", this.Id, layerId);
+            LeafletCache.DisposeLayerReference(layerId);
         }
     }
 }

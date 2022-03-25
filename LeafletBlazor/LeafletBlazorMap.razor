@@ -6,7 +6,7 @@
     {
         if (firstRender)
         {
-            await LeafletInterops.Create(JsRuntime, this);
+            await LeafletCache.Create(JsRuntime, this);
             this.RaiseOnInit();
         }
     }
