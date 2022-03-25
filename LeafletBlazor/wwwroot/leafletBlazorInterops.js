@@ -68,7 +68,7 @@ window.leafletBlazor = {
     setMapView: function (mapId, center, zoom, options) {
         maps[mapId].setView(center, zoom, options);
     },
-    setMapZoom: function (mapId, center, zoom, options) {
+    setMapZoom: function (mapId, zoom, options) {
         maps[mapId].setZoom(zoom, options);
     },
     setZoomIn: function (mapId, delta, options) {
@@ -110,8 +110,13 @@ window.leafletBlazor = {
     getMaxZoom: function (mapId) {
         return maps[mapId].getMaxZoom();
     },
-
 };
+
+window.LeafletTileLayer = {
+    bringToBack: function (mapId, layerId) {
+        
+    }
+}
 
 function cleanupEventArgsForSerialization(eventArgs) {
 
