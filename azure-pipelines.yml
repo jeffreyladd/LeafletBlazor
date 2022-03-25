@@ -6,6 +6,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '4.x'
+    checkLatest: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
@@ -14,6 +18,13 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'dotnet pack LeafletBlazor/LeafletBlazor.csproj --output  $(Build.ArtifactStagingDirectory) --no-build /p:PackageVersion=$(Build.BuildNumber) --verbosity Detailed'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Glockness Nuget'
 
 - task: PublishBuildArtifacts@1
   inputs:
