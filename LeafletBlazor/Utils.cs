@@ -7,6 +7,12 @@
     {
         internal static readonly string _BaseMapObject = "window.leafletBlazor";
 
+        internal static readonly string _BaseLayerObject = "window.leafletLayer";
+
+        internal static readonly string _BaseGridLayerObject = "window.leafletGridLayer";
+
+        internal static readonly string _BaseTileLayerObject = "window.leafletTileLayer";
+
         static readonly Random _random = new Random();
 
         /// <summary>

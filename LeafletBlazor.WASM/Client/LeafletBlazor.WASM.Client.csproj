@@ -16,4 +16,10 @@
     <ProjectReference Include="..\..\LeafletBlazor\LeafletBlazor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Maps\MapEvents.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

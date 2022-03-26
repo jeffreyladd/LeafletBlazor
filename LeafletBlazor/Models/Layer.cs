@@ -18,7 +18,9 @@ namespace LeafletBlazor.Models
         /// </summary>
         public string Id { get; }
 
+        internal LeafletBlazorMap _Map { get; set; }
 
+        internal IJSRuntime _JSRuntime { get; set; }
 
         //TODO: do Tooltip and Popup when those controls are added
 
@@ -37,22 +39,38 @@ namespace LeafletBlazor.Models
         [JSInvokable]
         public void NotifyRemove(Event eventArgs)
         {
+            this._Map._Layers.Remove(this);
             this.OnRemove?.Invoke(this, eventArgs);
         }
 
 
         //TODO: Add Popup and Toolip Events when they are added.
 
+        /// <summary>
+        /// Adds the layer to the given map or layer group.
+        /// </summary>
+        /// <param name="map">The map to add the layer to.</param>
+        public virtual void AddTo(LeafletBlazorMap map) => map.AddLayer(this);
 
-        public abstract void AddTo(LeafletBlazorMap map);
+        /// <summary>
+        /// Removes the layer from the map it is currently active on.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ValueTask Remove() => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseLayerObject}.remove", this.Id, this._Map.Id);
 
-        public abstract void Remove();
-
-        public abstract void RemoveFrom(LeafletBlazorMap map);
+        /// <summary>
+        /// Removes the layer from the given map
+        /// </summary>
+        /// <param name="map">The map to remove the layer from.</param>
+        public virtual void RemoveFrom(LeafletBlazorMap map) => map.RemoveLayer(this);
 
         //TODO: add GetPane
 
-        public abstract void GetAttribution();
+        /// <summary>
+        /// Used by the attribution control, returns the attribution option.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ValueTask<string> GetAttribution() => this._JSRuntime.InvokeAsync<string>($"{Utils._BaseLayerObject}.getAttribution", this.Id, this._Map.Id);
 
         //TODO: Add Popup and Toolip Methods when they are added.
     }

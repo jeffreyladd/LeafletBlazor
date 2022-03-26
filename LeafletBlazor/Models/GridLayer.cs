@@ -1,5 +1,6 @@
 ﻿using LeafletBlazor.EventHandlers;
 using Microsoft.JSInterop;
+using System.Drawing;
 
 namespace LeafletBlazor.Models
 {
@@ -74,5 +75,46 @@ namespace LeafletBlazor.Models
         {
             this.OnLoad?.Invoke(this, eventArgs);
         }
+
+        /// <summary>
+        /// Brings the tile layer to the top of all tile layers.
+        /// </summary>
+        public virtual ValueTask BringToBack() => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseGridLayerObject}.bringToBack", this.Id, this._Map.Id);
+
+        /// <summary>
+        /// Brings the tile layer to the bottom of all tile layers.
+        /// </summary>
+        public virtual ValueTask BringToFront() => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseGridLayerObject}.bringToFront", this.Id, this._Map.Id);
+
+        //TODO: Do GetCOntainer
+
+        /// <summary>
+        /// Brings the tile layer to the bottom of all tile layers.
+        /// </summary>
+        /// <param name="op">THe opacity to set</param>
+        public virtual ValueTask SetOpacity(double op) => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseGridLayerObject}.setOpacity", this.Id, this._Map.Id, op);
+
+        /// <summary>
+        /// Changes the zIndex of the grid layer.
+        /// </summary>
+        /// <param name="zIndex">The zIndex to set</param>
+        public virtual ValueTask SetZIndex(int zIndex) => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseGridLayerObject}.setZIndex", this.Id, this._Map.Id, zIndex);
+
+        /// <summary>
+        /// Returns true if any tile in the grid layer has not finished loading.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ValueTask<bool> IsLoading() => this._JSRuntime.InvokeAsync<bool>($"{Utils._BaseGridLayerObject}.isLoading", this.Id, this._Map.Id);
+
+        /// <summary>
+        /// Causes the layer to clear all the tiles and request them again.
+        /// </summary>
+        public virtual ValueTask Redraw() => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseGridLayerObject}.redraw", this.Id, this._Map.Id);
+
+        /// <summary>
+        /// Normalizes the tileSize option into a point. Used by the createTile() method.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ValueTask<PointF> GetTileSize() => this._JSRuntime.InvokeAsync<PointF>($"{Utils._BaseGridLayerObject}.getTileSize", this.Id, this._Map.Id);
     }
 }

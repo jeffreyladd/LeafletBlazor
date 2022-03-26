@@ -65,6 +65,13 @@ window.leafletBlazor = {
         connectTileLayerEvents(layer, objectReference);
         addLayer(mapId, layer, tileLayer.id);
     },
+    removeLayer: function (mapId, layerId) {
+        const remainingLayers = layers[mapId].filter((layer) => layer.id !== layerId);
+        const layersToBeRemoved = layers[mapId].filter((layer) => layer.id === layerId);
+        layers[mapId] = remainingLayers;
+
+        layersToBeRemoved.forEach(m => m.removeFrom(maps[mapId]));
+    },
     setMapView: function (mapId, center, zoom, options) {
         maps[mapId].setView(center, zoom, options);
     },
@@ -112,9 +119,82 @@ window.leafletBlazor = {
     },
 };
 
-window.LeafletTileLayer = {
-    bringToBack: function (mapId, layerId) {
-        
+window.leafletLayer = {    
+    remove: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.remove();
+        }
+    },
+    getAttribution: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getAttribution();
+        }
+    }
+}
+
+window.leafletGridLayer = {
+    bringToBack: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToBack();
+        }
+    },
+    bringToFront: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToFront();
+        }
+    },
+    setOpacity: function (layerId, mapId, op) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setOpacity(op);
+        }
+    },
+    setZIndex: function (layerId, mapId, zIndex) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setZIndex(zIndex);
+        }
+    },
+    isLoading: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.isLoading();
+        }
+    },
+    redraw: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.redraw();
+        }
+    },
+    getTileSize: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getTileSize();
+        }
+    },
+}
+
+window.leafletTileLayer = {
+    setUrl: function (layerId, mapId, url, noRedraw) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setUrl(url);
+        }
     }
 }
 

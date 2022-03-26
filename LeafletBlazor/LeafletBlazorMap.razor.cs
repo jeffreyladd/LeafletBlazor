@@ -10,7 +10,8 @@ namespace LeafletBlazor
         public LeafletBlazorMap()
         {
             this.Id = Utils.GetRandomString(12);
-            this._layers.CollectionChanged += OnLayersChanged;
+            this._Layers.CollectionChanged += OnLayersChanged;
+            this._Cache = new LeafletCache();
         }
 
         /// <summary>
@@ -20,7 +21,9 @@ namespace LeafletBlazor
 
         [Inject]
         public IJSRuntime JsRuntime { get; protected set; }
-        
+
+        internal LeafletCache _Cache { get; private set; }
+
         /// <summary>
         /// The Identifier of the map to be refrenced as.
         /// </summary>
@@ -35,9 +38,9 @@ namespace LeafletBlazor
         /// <summary>
         /// The List of Layers used by the map.
         /// </summary>
-        public IReadOnlyList<Layer> Layers => this._layers.ToList();
+        public IReadOnlyList<Layer> Layers => this._Layers.ToList();
 
-        internal ObservableCollection<Layer> _layers = new ObservableCollection<Layer>();
+        internal ObservableCollection<Layer> _Layers = new ObservableCollection<Layer>();
 
         //TODO: Add Methods for Layers and Controls.
 
@@ -175,7 +178,10 @@ namespace LeafletBlazor
                 throw new UninitializedMapException();
             }
 
-            _layers.Add(layer);
+            layer._JSRuntime = this.JsRuntime;
+            layer._Map = this;
+
+            _Layers.Add(layer);
         }
 
         /// <summary>
@@ -196,7 +202,7 @@ namespace LeafletBlazor
                 throw new UninitializedMapException();
             }
 
-            _layers.Remove(layer);
+            _Layers.Remove(layer);
         }        
     }
 }

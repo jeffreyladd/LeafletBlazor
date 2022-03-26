@@ -1,4 +1,7 @@
-﻿namespace LeafletBlazor.Models
+﻿using Microsoft.JSInterop;
+using System.Drawing;
+
+namespace LeafletBlazor.Models
 {
     /// <summary>
     /// The Tile Layer that should be used.
@@ -9,24 +12,12 @@
 
         public TileLayerOptions Options { get; private set; }
 
-        public override void AddTo(LeafletBlazorMap map)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void GetAttribution()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveFrom(LeafletBlazorMap map)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Updates the layer's URL template and redraws it (unless noRedraw is set to true). If the URL does not change, the layer will not be redrawn unless the noRedraw parameter is set to false.
+        /// </summary>
+        /// <param name="url">The url to be used.</param>
+        /// <param name="noRedraw">If leaflet should redraw the layer.</param>
+        /// <returns></returns>
+        public ValueTask SetUrl(string url, bool? noRedraw) => this._JSRuntime.InvokeVoidAsync($"{Utils._BaseLayerObject}.remove", this.Id, this._Map.Id, url, noRedraw);
     }
 }

@@ -260,7 +260,7 @@ namespace LeafletBlazor
         {
             return layer switch
             {
-                TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addTilelayer", this.Id, tileLayer, LeafletCache.CreateLayerReference(this.Id, tileLayer)),
+                TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addTilelayer", this.Id, tileLayer, this._Cache.CreateLayerReference(this.Id, tileLayer)),
                 //MbTilesLayer mbTilesLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMbTilesLayer", mapId, mbTilesLayer, CreateLayerReference(mapId, mbTilesLayer)),
                 //ShapefileLayer shapefileLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addShapefileLayer", mapId, shapefileLayer, CreateLayerReference(mapId, shapefileLayer)),
                 //Marker marker => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMarker", mapId, marker, CreateLayerReference(mapId, marker)),
@@ -277,7 +277,7 @@ namespace LeafletBlazor
         async ValueTask InternalRemoveLayer(string layerId)
         {
             await this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.removeLayer", this.Id, layerId);
-            LeafletCache.DisposeLayerReference(layerId);
+            this._Cache.DisposeLayerReference(layerId);
         }
     }
 }

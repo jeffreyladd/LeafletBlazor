@@ -1,0 +1,130 @@
+﻿@page "/tilelayer-methods"
+@inject IJSRuntime jsRuntime
+
+<MudExpansionPanels MultiExpansion="true">
+    <MudExpansionPanel Text="Set Layer State">
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="Get Attribution">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GetLayer1Attribution">Get Layer 1 Attribution</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="GetLayer2Attribution">Get Layer 2 Attribution</MudButton>
+                <br />
+                Attribution: @_attribution
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Remove From">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RemoveFromLayer1">Remove Layer 1</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RemoveFromLayer2">Remove Layer 2</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Remove">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RemoveLayer1">Remove Layer 1</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RemoveLayer2">Remove Layer 2</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Add To">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddToLayer1">Add Layer 1</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddToLayer2">Add Layer 2</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Bring to Front">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="BringLayer1Front">Bring Layer 1 to Front</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="BringLayer2Front">Bring Layer 2 to Front</MudButton>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Bring to Back">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="BringLayer1Back">Bring Layer 1 to Back</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="BringLayer2Back">Bring Layer 2 to Back</MudButton>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Map" IsExpanded="true">
+        <div style="height: 800px; width: 1000px;">
+            <LeafletBlazorMap @ref="_map" Options="_options" />
+        </div>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code
+{
+    private LeafletBlazorMap _map;
+    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2 };
+    private string _attribution = "";
+
+    TileLayer layer1 =  new TileLayer(new TileLayerOptions
+    {
+        UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+    });
+    TileLayer layer2 = new TileLayer(new TileLayerOptions
+    {
+        UrlTemplate = "https://a.tile.opentopomap.org/{z}/{x}/{y}.png",
+        Attribution = "Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)",
+    });
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _map.OnInit += () =>
+            {
+                _map.AddLayer(layer1);
+                _map.AddLayer(layer2);
+            };
+        }
+    }
+
+    async Task GetLayer1Attribution()
+    {
+        this._attribution = await layer1.GetAttribution();
+    }
+
+    async Task GetLayer2Attribution()
+    {
+        this._attribution = await layer2.GetAttribution();
+    }
+
+    void RemoveFromLayer1()
+    {
+        this.layer1.RemoveFrom(this._map);
+    }
+
+    void RemoveFromLayer2()
+    {
+        this.layer2.RemoveFrom(this._map);
+    }
+
+    void RemoveLayer1()
+    {
+        this.layer1.Remove();
+    }
+
+    void RemoveLayer2()
+    {
+        this.layer2.Remove();
+    }
+
+    void AddToLayer1()
+    {
+        this.layer1.AddTo(this._map);
+    }
+
+    void AddToLayer2()
+    {
+        this.layer2.AddTo(this._map);
+    }
+
+    void BringLayer1Front()
+    {
+        this.layer1.BringToFront();
+    }
+
+    void BringLayer2Front()
+    {
+        this.layer2.BringToFront();
+    }
+
+    void BringLayer1Back()
+    {
+        this.layer1.BringToBack();
+    }
+
+    void BringLayer2Back()
+    {
+        this.layer2.BringToBack();
+    }
+}
