@@ -65,6 +65,32 @@ window.leafletBlazor = {
         connectTileLayerEvents(layer, objectReference);
         addLayer(mapId, layer, tileLayer.id);
     },
+    addWmslayer: function (mapId, wmsLayer, objectReference) {
+        const layer = L.tileLayer.wms(wmsLayer.options.urlTemplate, {
+            layers: wmsLayer.options.layers,
+            styles: wmsLayer.options.styles,
+            format: wmsLayer.options.format,
+            transparent: wmsLayer.options.transparent,
+            uppercase: wmsLayer.options.uppercase,
+            attribution: wmsLayer.options.attribution,
+            pane: wmsLayer.options.pane,
+            tileSize: wmsLayer.options.tileSize ? L.point(wmsLayer.options.tileSize.width, wmsLayer.options.tileSize.height) : undefined,
+            opacity: wmsLayer.options.opacity,
+            updateWhenZooming: wmsLayer.options.updateWhenZooming,
+            updateInterval: wmsLayer.options.updateInterval,
+            zIndex: wmsLayer.options.zIndex,
+            bounds: wmsLayer.options.bounds && wmsLayer.options.bounds.item1 && wmsLayer.options.bounds.item2 ? L.latLngBounds(wmsLayer.options.bounds.item1, wmsLayer.options.bounds.item2) : undefined,
+            minZoom: wmsLayer.options.minimumZoom,
+            maxZoom: wmsLayer.options.maximumZoom,
+            subdomains: wmsLayer.options.subdomains,
+            errorTileUrl: wmsLayer.options.errorTileUrl,
+            zoomOffset: wmsLayer.options.zoomOffset,
+            zoomReverse: wmsLayer.options.isZoomReversed,
+            detectRetina: wmsLayer.options.detectRetina,
+        });
+        connectTileLayerEvents(layer, objectReference);
+        addLayer(mapId, layer, wmsLayer.id);
+    },
     removeLayer: function (mapId, layerId) {
         const remainingLayers = layers[mapId].filter((layer) => layer.id !== layerId);
         const layersToBeRemoved = layers[mapId].filter((layer) => layer.id === layerId);

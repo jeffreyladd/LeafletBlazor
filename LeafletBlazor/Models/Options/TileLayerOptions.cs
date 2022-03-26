@@ -1,6 +1,6 @@
 ﻿namespace LeafletBlazor.Models
 {
-    public sealed record TileLayerOptions : GridLayerOptions
+    public record TileLayerOptions : GridLayerOptions
     {
         /// <summary>
         /// Instantiates a tile layer object given a URL template.

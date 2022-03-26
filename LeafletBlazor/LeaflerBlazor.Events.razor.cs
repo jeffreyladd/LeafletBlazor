@@ -260,6 +260,7 @@ namespace LeafletBlazor
         {
             return layer switch
             {
+                WmsLayer wmsLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addWmslayer", this.Id, wmsLayer, this._Cache.CreateLayerReference(this.Id, wmsLayer)),
                 TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addTilelayer", this.Id, tileLayer, this._Cache.CreateLayerReference(this.Id, tileLayer)),
                 //MbTilesLayer mbTilesLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMbTilesLayer", mapId, mbTilesLayer, CreateLayerReference(mapId, mbTilesLayer)),
                 //ShapefileLayer shapefileLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addShapefileLayer", mapId, shapefileLayer, CreateLayerReference(mapId, shapefileLayer)),
