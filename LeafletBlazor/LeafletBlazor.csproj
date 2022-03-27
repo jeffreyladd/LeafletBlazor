@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<VersionPrefix>0.0.2</VersionPrefix>
+	<VersionPrefix>0.0.3</VersionPrefix>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryType>git</RepositoryType>
 	<PackageProjectUrl>https://github.com/jeffreyladd/LeafletBlazor</PackageProjectUrl>
