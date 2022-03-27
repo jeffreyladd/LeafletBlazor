@@ -397,6 +397,92 @@ window.leafletVideoOverlayLayer = {
     }
 }
 
+window.leafletMarkerLayer = {
+    create: function (mapId, marker, objectReference) {
+        const layerOptions = {
+            icon = marker.options.icon ? createLeafletIcon(marker.options.icon) : undefined,
+            keyboard: marker.options.keyboard,
+            title: marker.options.title,
+            alt: marker.options.alt,
+            zIndexOffset: marker.options.zIndexOffset,
+            opacity: marker.options.opacity,
+            riseOnHover: marker.options.riseOnHover,
+            riseOffset: marker.options.riseOffset,
+            pane: marker.options.pane,
+            shadowPane: marker.options.shadowPane,
+            bubblingMouseEvents: marker.options.bubblingMouseEvents,
+            draggable: marker.options.draggable,
+            autoPan: marker.options.autoPan,
+            autoPanPadding: marker.options.autoPanPadding,
+            autoPanSpeed: marker.options.autoPanSpeed,
+            interactive: marker.options.interactive,
+            attribution: marker.options.attribution
+        };
+
+        let markerLayer = L.marker(marker.options.latLng, layerOptions);
+        connectMarkerEvents(markerLayer, objectReference);
+        addLayer(mapId, markerLayer);
+    },
+    getLatLng: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getLatLng();
+        }
+    },
+    setLatLng: function (layerId, mapId, latlng) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setLatLng(latlng);
+        }
+    },
+    setZIndexOffset: function (layerId, mapId, offset) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setZIndexOffset(offset);
+        }
+    },
+    getIcon: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getIcon();
+        }
+    },
+    setIcon: function (layerId, mapId, newIcon) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setIcon(createLeafletIcon(newIcon));
+        }
+    },
+    setOpacity: function (layerId, mapId, op) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setOpacity(op);
+        }
+    },
+}
+
+function createLeafletIcon(icon) {
+    return L.icon({
+        iconUrl: icon.options.iconUrl,
+        iconRetinaUrl: icon.options.iconRetinaUrl,
+        iconSize: icon.options.iconSize,
+        iconAnchor: icon.options.iconAnchor,
+        popupAnchor: icon.options.popupAnchor,
+        toolipAnchor: icon.options.toolipAnchor,
+        shadowUrl: icon.options.shadowUrl,
+        shadowRetinaUrl: icon.options.shadowRetinaUrl,
+        shadowSize: icon.options.shadowSize,
+        shadowAnchor: icon.options.shadowAnchor,
+        className: icon.options.className
+    });
+}
+
 function cleanupEventArgsForSerialization(eventArgs) {
 
     const propertiesToRemove = [
@@ -504,12 +590,12 @@ function connectImageOverlayLayerEvents(layer, objectReference) {
         "mouseout": "NotifyMouseOut",
         "mousemove": "NotifyMouseMove",
         "contextmenu": "NotifyContextMenu",
+        "add": "NotifyAdd",
+        "remove": "NotifyRemove",
     });
 }
 
 function connectMarkerEvents(marker, objectReference) {
-
-    connectInteractiveLayerEvents(marker, objectReference);
 
     mapEvents(marker, objectReference, {
         "move": "NotifyMove",
@@ -518,6 +604,16 @@ function connectMarkerEvents(marker, objectReference) {
         "drag": "NotifyDrag",
         "dragend": "NotifyDragEnd",
         "moveend": "NotifyMoveEnd",
+        "click": "NotifyClick",
+        "dblclick": "NotifyDblClick",
+        "mousedown": "NotifyMouseDown",
+        "mouseup": "NotifyMouseUp",
+        "mouseover": "NotifyMouseOver",
+        "mouseout": "NotifyMouseOut",
+        "mousemove": "NotifyMouseMove",
+        "contextmenu": "NotifyContextMenu",
+        "add": "NotifyAdd",
+        "remove": "NotifyRemove",
     });
 }
 

@@ -10,6 +10,6 @@
         /// <summary>
         /// When true, a mouse event on this layer will trigger the same event on the map (unless L.DomEvent.stopPropagation is used).
         /// </summary>
-        public bool BubblingMouseEvents { get; set; } = true;
+        public virtual bool BubblingMouseEvents { get; init; } = true;
     }
 }

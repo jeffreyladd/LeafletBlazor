@@ -264,7 +264,7 @@ namespace LeafletBlazor
                 TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseTileLayerObject}.create", this.Id, tileLayer, this._Cache.CreateLayerReference(this.Id, tileLayer)),
                 VideoOverlayLayer vidLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseVideoLayerObject}.create", this.Id, vidLayer, this._Cache.CreateLayerReference(this.Id, vidLayer)),
                 ImageOverlayLayer imageLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseImageLayerObject}.create", this.Id, imageLayer, this._Cache.CreateLayerReference(this.Id, imageLayer)),
-                //MbTilesLayer mbTilesLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMbTilesLayer", mapId, mbTilesLayer, CreateLayerReference(mapId, mbTilesLayer)),
+                Marker marker => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMarkerObject}.create", this.Id, marker, this._Cache.CreateLayerReference(this.Id, marker)),
                 //ShapefileLayer shapefileLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addShapefileLayer", mapId, shapefileLayer, CreateLayerReference(mapId, shapefileLayer)),
                 //Marker marker => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMarker", mapId, marker, CreateLayerReference(mapId, marker)),
                 //Rectangle rectangle => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addRectangle", mapId, rectangle, CreateLayerReference(mapId, rectangle)),

@@ -19,6 +19,8 @@
 
         internal static readonly string _BaseVideoLayerObject = "window.leafletVideoOverlayLayer";
 
+        internal static readonly string _BaseMarkerObject = "window.leafletMarkerLayer";
+
         static readonly Random _random = new Random();
 
         /// <summary>
