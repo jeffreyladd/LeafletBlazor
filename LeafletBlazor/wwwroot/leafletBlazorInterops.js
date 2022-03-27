@@ -18,7 +18,7 @@ window.leafletBlazor = {
             zoom: map.options.zoom ? map.options.zoom : undefined,
             minZoom: map.options.minZoom ? map.options.minZoom : undefined,
             maxZoom: map.options.maxZoom ? map.options.maxZoom : undefined,
-            //maxBounds: map.options.maxBounds && map.options.maxBounds.item1 && map.options.maxBounds.item2 ? L.latLngBounds(map.options.maxBounds.item1, map.options.maxBounds.item2) : undefined,
+            maxBounds: map.options.maxBounds ? L.latLngBounds(map.options.maxBounds.bounds) : undefined,
             zoomAnimation: map.options.zoomAnimation,
             zoomAnimationThreshold: map.options.zoomAnimationThreshold,
             fadeAnimation: map.options.fadeAnimation,
@@ -44,53 +44,6 @@ window.leafletBlazor = {
         maps[map.id] = leafletMap;
         layers[map.id] = [];
     },
-    addTilelayer: function (mapId, tileLayer, objectReference) {
-        const layer = L.tileLayer(tileLayer.options.urlTemplate, {
-            attribution: tileLayer.options.attribution,
-            pane: tileLayer.options.pane,
-            tileSize: tileLayer.options.tileSize ? L.point(tileLayer.options.tileSize.width, tileLayer.options.tileSize.height) : undefined,
-            opacity: tileLayer.options.opacity,
-            updateWhenZooming: tileLayer.options.updateWhenZooming,
-            updateInterval: tileLayer.options.updateInterval,
-            zIndex: tileLayer.options.zIndex,
-            bounds: tileLayer.options.bounds && tileLayer.options.bounds.item1 && tileLayer.options.bounds.item2 ? L.latLngBounds(tileLayer.options.bounds.item1, tileLayer.options.bounds.item2) : undefined,
-            minZoom: tileLayer.options.minimumZoom,
-            maxZoom: tileLayer.options.maximumZoom,
-            subdomains: tileLayer.options.subdomains,
-            errorTileUrl: tileLayer.options.errorTileUrl,
-            zoomOffset: tileLayer.options.zoomOffset,
-            zoomReverse: tileLayer.options.isZoomReversed,
-            detectRetina: tileLayer.options.detectRetina,
-        });
-        connectTileLayerEvents(layer, objectReference);
-        addLayer(mapId, layer, tileLayer.id);
-    },
-    addWmslayer: function (mapId, wmsLayer, objectReference) {
-        const layer = L.tileLayer.wms(wmsLayer.options.urlTemplate, {
-            layers: wmsLayer.options.layers,
-            styles: wmsLayer.options.styles,
-            format: wmsLayer.options.format,
-            transparent: wmsLayer.options.transparent,
-            uppercase: wmsLayer.options.uppercase,
-            attribution: wmsLayer.options.attribution,
-            pane: wmsLayer.options.pane,
-            tileSize: wmsLayer.options.tileSize ? L.point(wmsLayer.options.tileSize.width, wmsLayer.options.tileSize.height) : undefined,
-            opacity: wmsLayer.options.opacity,
-            updateWhenZooming: wmsLayer.options.updateWhenZooming,
-            updateInterval: wmsLayer.options.updateInterval,
-            zIndex: wmsLayer.options.zIndex,
-            bounds: wmsLayer.options.bounds && wmsLayer.options.bounds.item1 && wmsLayer.options.bounds.item2 ? L.latLngBounds(wmsLayer.options.bounds.item1, wmsLayer.options.bounds.item2) : undefined,
-            minZoom: wmsLayer.options.minimumZoom,
-            maxZoom: wmsLayer.options.maximumZoom,
-            subdomains: wmsLayer.options.subdomains,
-            errorTileUrl: wmsLayer.options.errorTileUrl,
-            zoomOffset: wmsLayer.options.zoomOffset,
-            zoomReverse: wmsLayer.options.isZoomReversed,
-            detectRetina: wmsLayer.options.detectRetina,
-        });
-        connectTileLayerEvents(layer, objectReference);
-        addLayer(mapId, layer, wmsLayer.id);
-    },
     removeLayer: function (mapId, layerId) {
         const remainingLayers = layers[mapId].filter((layer) => layer.id !== layerId);
         const layersToBeRemoved = layers[mapId].filter((layer) => layer.id === layerId);
@@ -113,11 +66,29 @@ window.leafletBlazor = {
     setZoomAround: function (mapId, center, zoom, options) {
         maps[mapId].setZoomAround(center, zoom, options)
     },
+    fitBounds: function (mapId, bounds, options) {
+        maps[mapId].fitBounds(L.latLngBounds(bounds.bounds), options);
+    },
+    fitWorld: function (mapId, options) {
+        maps[mapId].fitWorld(options);
+    },
+    flyTo: function (mapId, latlng, zoom, options) {
+        maps[mapId].flyTo(latlng, zoom, options);
+    },
+    flyToBounds: function (mapId, bounds, options) {
+        maps[mapId].flyToBounds(L.latLngBounds(bounds.bounds), options);
+    },
+    setMaxBounds: function (mapId, bounds) {
+        maps[mapId].setMaxBounds(L.latLngBounds(bounds.bounds));
+    },
     setMinZoom: function (mapId, zoom) {
         maps[mapId].setMinZoom(zoom)
     },
     setMaxZoom: function (mapId, zoom) {
         maps[mapId].setMaxZoom(zoom)
+    },
+    panInsideBounds: function (mapId, bounds, options) {
+        maps[mapId].panInsideBounds(L.latLngBounds(bounds.bounds), options);
     },
     panInside: function (mapId, latLng) {
         maps[mapId].panInside(latLng);
@@ -137,12 +108,18 @@ window.leafletBlazor = {
     getZoom: function (mapId) {
         return maps[mapId].getZoom();
     },
+    getBounds: function (mapId) {
+        return maps[mapId].getBounds();
+    },
     getMinZoom: function (mapId) {
         return maps[mapId].getMinZoom();
     },
     getMaxZoom: function (mapId) {
         return maps[mapId].getMaxZoom();
     },
+    getBoundsZoom: function (mapId, bounds, inside, point) {
+        return maps[mapId].getMaxZoom(L.latLngBounds(bounds.bounds), inside, point);
+    }
 };
 
 window.leafletLayer = {    
@@ -215,11 +192,207 @@ window.leafletGridLayer = {
 }
 
 window.leafletTileLayer = {
+    create: function (mapId, tileLayer, objectReference) {
+        const layer = L.tileLayer(tileLayer.options.urlTemplate, {
+            attribution: tileLayer.options.attribution,
+            pane: tileLayer.options.pane,
+            tileSize: tileLayer.options.tileSize ? L.point(tileLayer.options.tileSize.width, tileLayer.options.tileSize.height) : undefined,
+            opacity: tileLayer.options.opacity,
+            updateWhenZooming: tileLayer.options.updateWhenZooming,
+            updateInterval: tileLayer.options.updateInterval,
+            zIndex: tileLayer.options.zIndex,
+            bounds: tileLayer.options.bounds ? L.latLngBounds(tileLayer.options.bounds.bounds) : undefined,
+            minZoom: tileLayer.options.minimumZoom,
+            maxZoom: tileLayer.options.maximumZoom,
+            subdomains: tileLayer.options.subdomains,
+            errorTileUrl: tileLayer.options.errorTileUrl,
+            zoomOffset: tileLayer.options.zoomOffset,
+            zoomReverse: tileLayer.options.isZoomReversed,
+            detectRetina: tileLayer.options.detectRetina,
+        });
+        connectTileLayerEvents(layer, objectReference);
+        addLayer(mapId, layer, tileLayer.id);
+    },
     setUrl: function (layerId, mapId, url, noRedraw) {
         let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
         if (chLayer.length > 0) {
             let layer = chLayer[0];
             layer.setUrl(url);
+        }
+    }
+}
+
+window.leafletWmsLayer = {
+    create: function (mapId, wmsLayer, objectReference) {
+        const layer = L.tileLayer.wms(wmsLayer.options.urlTemplate, {
+            layers: wmsLayer.options.layers,
+            styles: wmsLayer.options.styles,
+            format: wmsLayer.options.format,
+            transparent: wmsLayer.options.transparent,
+            uppercase: wmsLayer.options.uppercase,
+            attribution: wmsLayer.options.attribution,
+            pane: wmsLayer.options.pane,
+            tileSize: wmsLayer.options.tileSize ? L.point(wmsLayer.options.tileSize.width, wmsLayer.options.tileSize.height) : undefined,
+            opacity: wmsLayer.options.opacity,
+            updateWhenZooming: wmsLayer.options.updateWhenZooming,
+            updateInterval: wmsLayer.options.updateInterval,
+            zIndex: wmsLayer.options.zIndex,
+            bounds: wmsLayer.options.bounds ? L.latLngBounds(wmsLayer.options.bounds.bounds) : undefined,
+            minZoom: wmsLayer.options.minimumZoom,
+            maxZoom: wmsLayer.options.maximumZoom,
+            subdomains: wmsLayer.options.subdomains,
+            errorTileUrl: wmsLayer.options.errorTileUrl,
+            zoomOffset: wmsLayer.options.zoomOffset,
+            zoomReverse: wmsLayer.options.isZoomReversed,
+            detectRetina: wmsLayer.options.detectRetina,
+        });
+        connectTileLayerEvents(layer, objectReference);
+        addLayer(mapId, layer, wmsLayer.id);
+    },
+}
+
+window.leafletImageOverlayLayer = {
+    create: function (mapId, image, objectReference) {
+        const layerOptions = {
+            pane: image.options.pane,
+            attribution: image.options.attribution,
+            bubblingMouseEvents: image.options.bubblingMouseEvents,
+            opacity: image.options.opacity,
+            alt: image.options.alt,
+            interactive: image.options.interactive,
+            crossOrigin: image.options.crossOrigin,
+            errorOverlayUrl: image.options.errorOverlayUrl,
+            zIndex: image.options.zIndex,
+            className: image.options.className
+        };
+        const bounds = L.latLngBounds(image.options.bounds.bounds);
+
+        const imgLayer = L.imageOverlay(image.options.url, bounds, layerOptions);
+        connectImageOverlayLayerEvents(imgLayer, objectReference);
+        addLayer(mapId, imgLayer);
+    },
+    setOpacity: function (layerId, mapId, op) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setOpacity(op);
+        }
+    },
+    bringToBack: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToBack();
+        }
+    },
+    bringToFront: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToFront();
+        }
+    },
+    setUrl: function (layerId, mapId, url) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setUrl(url);
+        }
+    },
+    setBounds: function (layerId, mapId, bounds) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setBounds(L.latLngBounds(bounds.bounds));
+        }
+    },
+    setZIndex: function (layerId, mapId, zIndex) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setZIndex(zIndex);
+        }
+    },
+    getBounds: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getBounds();
+        }
+    }
+}
+
+window.leafletVideoOverlayLayer = {
+    create: function (mapId, video, objectReference) {
+        const layerOptions = {
+            autoplay: video.options.autoplay,
+            loop: video.options.loop,
+            keepAspectRatio: video.options.keepAspectRatio,
+            muted: video.options.muted,
+            pane: video.options.pane,
+            attribution: video.options.attribution,
+            bubblingMouseEvents: video.options.bubblingMouseEvents,
+            opacity: video.options.opacity,
+            alt: video.options.alt,
+            interactive: video.options.interactive,
+            crossOrigin: video.options.crossOrigin,
+            errorOverlayUrl: video.options.errorOverlayUrl,
+            zIndex: video.options.zIndex,
+            className: video.options.className
+        };
+        const bounds = L.latLngBounds(video.options.bounds.bounds);
+
+        const vidLayer = L.videoOverlay(video.options.url, bounds, layerOptions);
+        connectImageOverlayLayerEvents(vidLayer, objectReference);
+        addLayer(mapId, vidLayer);
+    },
+    setOpacity: function (layerId, mapId, op) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setOpacity(op);
+        }
+    },
+    bringToBack: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToBack();
+        }
+    },
+    bringToFront: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.bringToFront();
+        }
+    },
+    setUrl: function (layerId, mapId, url) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setUrl(url);
+        }
+    },
+    setBounds: function (layerId, mapId, bounds) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setBounds(L.latLngBounds(bounds.bounds));
+        }
+    },
+    setZIndex: function (layerId, mapId, zIndex) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            layer.setZIndex(zIndex);
+        }
+    },
+    getBounds: function (layerId, mapId) {
+        let chLayer = layers[mapId].filter((layer) => layer.id === layerId);
+        if (chLayer.length > 0) {
+            let layer = chLayer[0];
+            return layer.getBounds();
         }
     }
 }
@@ -316,10 +489,22 @@ function connectLayerEvents(layer, objectReference) {
     });
 }
 
-function connectInteractiveLayerEvents(interactiveLayer, objectReference) {
+function connectImageOverlayLayerEvents(layer, objectReference) {
 
-    connectLayerEvents(interactiveLayer, objectReference);
-    connectInteractionEvents(interactiveLayer, objectReference);
+    mapEvents(layer, objectReference, {
+        "add": "NotifyAdd",
+        "remove": "NotifyRemove",
+        "load": "NotifyLoad",
+        "error": "NotifyError",
+        "click": "NotifyClick",
+        "dblclick": "NotifyDblClick",
+        "mousedown": "NotifyMouseDown",
+        "mouseup": "NotifyMouseUp",
+        "mouseover": "NotifyMouseOver",
+        "mouseout": "NotifyMouseOut",
+        "mousemove": "NotifyMouseMove",
+        "contextmenu": "NotifyContextMenu",
+    });
 }
 
 function connectMarkerEvents(marker, objectReference) {

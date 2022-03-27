@@ -71,7 +71,9 @@
         /// </summary>
         //public IEnumerable<Layer> Layers { get; init; } = new List<Layer>();
 
-        // TODO: DO MaxBounds and renderer.
+        public LatLngBounds? MaxBounds { get; init; } = null;
+
+        // TODO: DO renderer.
         /// <summary>
         /// Whether the map zoom animation is enabled. By default it's enabled in all browsers that support CSS3 Transitions except Android.
         /// </summary>
@@ -101,6 +103,10 @@
         /// Max speed of the inertial movement, in pixels/second.
         /// </summary>
         public int InertiaMaxSpeed { get; init; } = int.MaxValue;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public double EaseLinearity { get; init; } = 0.2;
         /// <summary>
         /// With this option enabled, the map tracks when you pan to another "copy" of the world and seamlessly jumps to the original one so that all overlays like markers and vector layers are still visible.

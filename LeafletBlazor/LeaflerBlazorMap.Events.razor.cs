@@ -260,8 +260,10 @@ namespace LeafletBlazor
         {
             return layer switch
             {
-                WmsLayer wmsLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addWmslayer", this.Id, wmsLayer, this._Cache.CreateLayerReference(this.Id, wmsLayer)),
-                TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.addTilelayer", this.Id, tileLayer, this._Cache.CreateLayerReference(this.Id, tileLayer)),
+                WmsLayer wmsLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseWmsLayerObject}.create", this.Id, wmsLayer, this._Cache.CreateLayerReference(this.Id, wmsLayer)),
+                TileLayer tileLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseTileLayerObject}.create", this.Id, tileLayer, this._Cache.CreateLayerReference(this.Id, tileLayer)),
+                VideoOverlayLayer vidLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseVideoLayerObject}.create", this.Id, vidLayer, this._Cache.CreateLayerReference(this.Id, vidLayer)),
+                ImageOverlayLayer imageLayer => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseImageLayerObject}.create", this.Id, imageLayer, this._Cache.CreateLayerReference(this.Id, imageLayer)),
                 //MbTilesLayer mbTilesLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMbTilesLayer", mapId, mbTilesLayer, CreateLayerReference(mapId, mbTilesLayer)),
                 //ShapefileLayer shapefileLayer => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addShapefileLayer", mapId, shapefileLayer, CreateLayerReference(mapId, shapefileLayer)),
                 //Marker marker => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addMarker", mapId, marker, CreateLayerReference(mapId, marker)),
@@ -269,7 +271,6 @@ namespace LeafletBlazor
                 //Circle circle => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addCircle", mapId, circle, CreateLayerReference(mapId, circle)),
                 //Polygon polygon => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addPolygon", mapId, polygon, CreateLayerReference(mapId, polygon)),
                 //Polyline polyline => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addPolyline", mapId, polyline, CreateLayerReference(mapId, polyline)),
-                //ImageLayer image => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addImageLayer", mapId, image, CreateLayerReference(mapId, image)),
                 //GeoJsonDataLayer geo => jsRuntime.InvokeVoidAsync($"{_baseObjectContainer}.addGeoJsonLayer", mapId, geo, CreateLayerReference(mapId, geo)),
                 _ => throw new NotImplementedException($"The layer {typeof(Layer).Name} has not been implemented."),
             };

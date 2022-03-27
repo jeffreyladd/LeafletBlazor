@@ -13,6 +13,12 @@
 
         internal static readonly string _BaseTileLayerObject = "window.leafletTileLayer";
 
+        internal static readonly string _BaseWmsLayerObject = "window.leafletWmsLayer";
+
+        internal static readonly string _BaseImageLayerObject = "window.leafletImageOverlayLayer";
+
+        internal static readonly string _BaseVideoLayerObject = "window.leafletVideoOverlayLayer";
+
         static readonly Random _random = new Random();
 
         /// <summary>

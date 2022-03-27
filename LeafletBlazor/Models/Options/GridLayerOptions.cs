@@ -34,7 +34,10 @@ namespace LeafletBlazor.Models
         /// </summary>
         public virtual int ZIndex { get; init; } = 1;
 
-        //TODO: Do Bounds
+        /// <summary>
+        /// If set, tiles will only be loaded inside the set LatLngBounds.
+        /// </summary>
+        public virtual LatLngBounds? Bounds { get; init; } = null;
 
         /// <summary>
         /// The minimum zoom level down to which this layer will be displayed (inclusive).

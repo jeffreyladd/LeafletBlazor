@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Collections.ObjectModel;
+using System.Drawing;
 
 namespace LeafletBlazor
 {
@@ -81,7 +82,44 @@ namespace LeafletBlazor
         /// <param name="options">The Zoom options to use when moving.</param>
         public ValueTask SetZoomAround(LatLng center, double zoom, ZoomOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setZoomAround", this.Id, center, zoom, options);
 
-        //TODO: flyToBounds, setMaxBounds
+        /// <summary>
+        /// Sets a map view that contains the given geographical bounds with the maximum zoom level possible.
+        /// </summary>
+        /// <param name="bounds">The Bounds to which set the map to.</param>
+        /// <param name="options">The Options as to which set.</param>
+        /// <returns></returns>
+        public ValueTask FitBounds(LatLngBounds bounds, FitBoundsOptions? options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.fitBounds", this.Id, bounds, options);
+
+        /// <summary>
+        /// Sets a map view that mostly contains the whole world with the maximum zoom level possible. 
+        /// </summary>
+        /// <param name="options">The options to pass</param>
+        /// <returns></returns>
+        public ValueTask FitWorld(FitBoundsOptions options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.fitBounds", this.Id, options);
+
+        /// <summary>
+        /// Sets the view of the map (geographical center and zoom) performing a smooth pan-zoom animation.
+        /// </summary>
+        /// <param name="latlng">The point to pan to.</param>
+        /// <param name="zoom">The zoom to use.</param>
+        /// <param name="options">The options to pass.</param>
+        /// <returns></returns>
+        public ValueTask FlyTo(LatLng latlng, int? zoom, ZoomPanOptions? options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.flyTo", this.Id, latlng, zoom, options);
+
+        /// <summary>
+        /// Sets the view of the map with a smooth animation like flyTo, but takes a bounds parameter like fitBounds.
+        /// </summary>
+        /// <param name="bounds">The bounds to set</param>
+        /// <param name="options">The options to use.</param>
+        /// <returns></returns>
+        public ValueTask FlyToBounds(LatLngBounds bounds, FitBoundsOptions? options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.flyToBounds", this.Id, bounds, options);
+
+        /// <summary>
+        /// Restricts the map view to the given bounds(see the maxBounds option).
+        /// </summary>
+        /// <param name="bounds">The bounds to set.</param>
+        /// <returns></returns>
+        public ValueTask SetMaxBounds(LatLngBounds bounds) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMaxBounds", this.Id, bounds);
 
         /// <summary>
         /// Sets the lower limit for the available zoom levels (see the minZoom option).
@@ -95,7 +133,13 @@ namespace LeafletBlazor
         /// <param name="zoom">The amount to zoom in</param>
         public ValueTask SetMaxZoom(double zoom) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.setMaxZoom", this.Id, zoom);
 
-        //TODO: panInsideBounds
+        /// <summary>
+        /// Pans the map to the closest view that would lie inside the given bounds (if it's not already), controlling the animation using the options specific, if any.
+        /// </summary>
+        /// <param name="bounds">The bounds to set.</param>
+        /// <param name="options">The options to set.</param>
+        /// <returns></returns>
+        public ValueTask PanInsideBounds(LatLngBounds bounds, ZoomPanOptions? options) => this.JsRuntime.InvokeVoidAsync($"{Utils._BaseMapObject}.panInsideBounds", this.Id, bounds, options);
 
         /// <summary>
         /// Pans the map the minimum amount to make the latlng visible. Use padding, paddingTopLeft and paddingTopRight options to fit the display to more restricted bounds, like fitBounds. If latlng is already within the (optionally padded) display bounds, the map will not be panned.
@@ -135,7 +179,11 @@ namespace LeafletBlazor
         /// <returns></returns>
         public ValueTask<double> GetZoom() => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getZoom", this.Id);
 
-        //TODO: Add GetBounds
+        /// <summary>
+        /// Returns the geographical bounds visible in the current map view
+        /// </summary>
+        /// <returns></returns>
+        public ValueTask<LatLngBounds> GetBounds() => this.JsRuntime.InvokeAsync<LatLngBounds>($"{Utils._BaseMapObject}.getBounds", this.Id);
 
         /// <summary>
         /// Returns the minimum zoom level of the map (if set in the minZoom option of the map or of any layers), or 0 by default.
@@ -149,7 +197,16 @@ namespace LeafletBlazor
         /// <returns></returns>
         public ValueTask<double> GetMaxZoom() => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getMaxZoom", this.Id);
 
-        //TODO: Add getBoundsZoom, Sizes, COnversion, and Evented Methods.
+        /// <summary>
+        /// Returns the maximum zoom level on which the given bounds fit to the map view in its entirety. If inside (optional) is set to true, the method instead returns the minimum zoom level on which the map view fits into the given bounds in its entirety.
+        /// </summary>
+        /// <param name="bounds">The bounds in which to use.</param>
+        /// <param name="inside"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public ValueTask<double> GetBoundsZoom(LatLngBounds bounds, bool? inside, PointF? point) => this.JsRuntime.InvokeAsync<double>($"{Utils._BaseMapObject}.getBoundsZoom", this.Id, bounds, inside, point);
+
+        //TODO: Add GetSizes, Conversion, and Evented Methods.
 
         /// <summary>
         /// Initializing method that MUST be called by the library.

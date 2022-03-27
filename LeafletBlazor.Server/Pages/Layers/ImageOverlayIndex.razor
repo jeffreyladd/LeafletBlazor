@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/imageoverlaylayer"
 @inject IJSRuntime jsRuntime
 
 <div style="height: 800px; width: 1000px;">
@@ -9,7 +9,7 @@
 {
 
     private LeafletBlazorMap _map;
-    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2, MaxBounds = new LatLngBounds(new LatLng { Lat = 55.43526006230938, Lng = -144.2637798327008 }, new LatLng { Lat = 23.490424711637466, Lng = -68.43528942435861 }) };
+    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2 };
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -21,6 +21,11 @@
                 {
                     UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                }));
+                _map.AddLayer(new ImageOverlayLayer(new ImageOverlayOptions
+                {
+                    Url = "http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg",
+                    Bounds = new LatLngBounds(new LatLng { Lat = 40.712216, Lng = -74.22655 }, new LatLng { Lat = 40.773941, Lng = -74.12544 })
                 }));
             };
         }

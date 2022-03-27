@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/videooverlaylayer"
 @inject IJSRuntime jsRuntime
 
 <div style="height: 800px; width: 1000px;">
@@ -9,7 +9,7 @@
 {
 
     private LeafletBlazorMap _map;
-    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2, MaxBounds = new LatLngBounds(new LatLng { Lat = 55.43526006230938, Lng = -144.2637798327008 }, new LatLng { Lat = 23.490424711637466, Lng = -68.43528942435861 }) };
+    private MapOptions _options = new MapOptions { Center = new LatLng(8, 8), Zoom = 2 };
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -21,6 +21,11 @@
                 {
                     UrlTemplate = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     Attribution = "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+                }));
+                _map.AddLayer(new VideoOverlayLayer(new VideoOverlayOptions
+                {
+                    Url = "https://www.mapbox.com/bites/00188/patricia_nasa.webm",
+                    Bounds = new LatLngBounds(new LatLng { Lat = 32, Lng = -130 }, new LatLng { Lat = 13, Lng = -100 })
                 }));
             };
         }

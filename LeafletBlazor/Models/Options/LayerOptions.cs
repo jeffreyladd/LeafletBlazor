@@ -10,6 +10,6 @@
         /// <summary>
         /// String to be shown in the attribution control, e.g. "© OpenStreetMap contributors". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
         /// </summary>
-        public abstract string Attribution { get; init; }
+        public virtual string Attribution { get; init; } = "";
     }
 }
