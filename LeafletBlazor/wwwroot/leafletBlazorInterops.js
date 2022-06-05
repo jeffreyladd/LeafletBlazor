@@ -400,7 +400,7 @@ window.leafletVideoOverlayLayer = {
 window.leafletMarkerLayer = {
     create: function (mapId, marker, objectReference) {
         const layerOptions = {
-            icon = marker.options.icon ? createLeafletIcon(marker.options.icon) : undefined,
+            icon: marker.options.icon ? createLeafletIcon(marker.options.icon) : undefined,
             keyboard: marker.options.keyboard,
             title: marker.options.title,
             alt: marker.options.alt,
